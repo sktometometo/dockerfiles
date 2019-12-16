@@ -1,0 +1,16 @@
+cupy
+chainer
+pandas
+chainercv
+Pillow
+progressbar2
+tqdm
+joblib
+matplotlib
+Sphinx
+scipy
+opencv-python
+scikit-learn
+h5py
+scikit-image
+xmltodict
