@@ -5,10 +5,6 @@ Maintainer Koki Shinjo <shinjo@jsk.imi.i.u-tokyo.ac.jp>
 # -------------------------------------------------------
 # Basic Configuration
 # -------------------------------------------------------
-RUN adduser --disabled-password --gecos "" user && \
-    echo "user:password" | chpasswd && \
-    usermod -aG sudo user
-
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -qq && \
@@ -65,7 +61,11 @@ RUN apt-get update -qq && \
         tcl-vtk \
         wget \
         xdg-user-dirs-gtk \
-        xsel
+        xsel \
+        vim \
+        emacs \
+        tmux \
+        git
 
 RUN pip install -q -U "pip==9.0.3" setuptools
 
@@ -88,52 +88,45 @@ RUN pip install -q -U \
 # install packages
 RUN apt-get update && apt-get install -q -y \
     dirmngr \
-        gnupg2 \
-            && rm -rf /var/lib/apt/lists/*
+    gnupg2
 # setup keys
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 # setup sources.list
 RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources.list.d/ros1-latest.list
-# install bootstrap tools
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    python-rosdep \
-        python-rosinstall \
-            python-vcstools \
-                && rm -rf /var/lib/apt/lists/*
 # setup environment
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
-# bootstrap rosdep
-RUN rosdep init \
-    && rosdep update
 # install ros packages
 ENV ROS_DISTRO kinetic
 RUN apt-get update && apt-get install -y \
-    ros-kinetic-ros-core=1.3.2-0* 
-# install ros packages for ros-base (kinetic on ubuntu xenial)
-RUN apt-get update && apt-get install -y \
-    ros-kinetic-ros-base=1.3.2-0* 
-# install ros packages for robot (kinetic on ubuntu xenial)
-RUN apt-get update && apt-get install -y \
-    ros-kinetic-robot=1.3.2-0* 
-# install ros packages for desktop (kinetic on ubuntu xenial)
-RUN apt-get update && apt-get install -y \
-    ros-kinetic-desktop=1.3.2-0* 
-# install ros packages for desktop-full (kinetic on ubuntu xenial)
-RUN apt-get update && apt-get install -y \
-    ros-kinetic-desktop-full=1.3.2-0* 
-#        && rm -rf /var/lib/apt/lists/*
-# setup entrypoint
-# COPY ./ros_entrypoint.sh /
-# ENTRYPOINT ["/ros_entrypoint.sh"]
-# CMD ["bash"]
+    ros-kinetic-desktop-full
+# install bootstrap tools
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    python-rosdep \
+    python-rosinstall \
+    python-vcstools \
+    python-catkin-tools
+# bootstrap rosdep
+RUN rosdep init && rosdep update
+
 
 # -------------------------------------------------------
 #
-#
 # -------------------------------------------------------
-ENV HOME /home/user
-ENV SHELL /bin/bash
-RUN chown -R user:user /home/user
-USER user
+RUN echo '' >> ~/.bashrc
+RUN echo '# CUDA' >> ~/.bashrc
+RUN echo 'export PATH=/usr/local/cuda-8.0/bin:${PATH}' >> ~/.bashrc
+RUN echo 'export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:${LD_LIBRARY_PATH}' >> ~/.bashrc
+RUN echo '' >> ~/.bashrc
+RUN echo '# ROS' >> ~/.bashrc
+RUN echo 'source /opt/ros/kinetic/setup.bash' >> ~/.bashrc
+RUN echo 'source $HOME/catkin_ws/devel/setup.bash' >> ~/.bashrc
+
+RUN mkdir $HOME/catkin_ws/src -p && \
+    cd $HOME/catkin_ws && \
+    catkin init && \
+    cd $HOME/catkin_ws/src && \
+    git clone https://github.com/jsk-ros-pkg/jsk_recognition.git && \
+    rosdep install --from-paths . --ignore-src -y -r
+
 CMD /bin/bash -c "cd $HOME && bash --login -c 'exec bash'"
