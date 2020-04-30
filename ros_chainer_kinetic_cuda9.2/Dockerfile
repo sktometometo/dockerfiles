@@ -35,7 +35,6 @@ RUN apt-get update && apt-get install -y \
 ENV DISPLAY 0
 
 
-
 #
 # install chainer
 #
