@@ -2,6 +2,10 @@ FROM nvidia/cuda:9.2-cudnn7-devel-ubuntu16.04
 
 Maintainer Koki Shinjo <shinjo@jsk.imi.i.u-tokyo.ac.jp>
 
+#
+# ROS kinetic と cuda 9.2 を使えるようにした dockerimage
+#
+
 # -------------------------------------------------------
 # Basic Configuration
 # -------------------------------------------------------
@@ -115,8 +119,8 @@ RUN rosdep init && rosdep update
 # -------------------------------------------------------
 RUN echo '' >> ~/.bashrc
 RUN echo '# CUDA' >> ~/.bashrc
-RUN echo 'export PATH=/usr/local/cuda-8.0/bin:${PATH}' >> ~/.bashrc
-RUN echo 'export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:${LD_LIBRARY_PATH}' >> ~/.bashrc
+RUN echo 'export PATH=/usr/local/cuda-9.2/bin:${PATH}' >> ~/.bashrc
+RUN echo 'export LD_LIBRARY_PATH=/usr/local/cuda-9.2/lib64:${LD_LIBRARY_PATH}' >> ~/.bashrc
 RUN echo '' >> ~/.bashrc
 RUN echo '# ROS' >> ~/.bashrc
 RUN echo 'source /opt/ros/kinetic/setup.bash' >> ~/.bashrc
