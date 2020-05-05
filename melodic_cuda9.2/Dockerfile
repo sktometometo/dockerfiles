@@ -1,5 +1,7 @@
 FROM nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 Maintainer Koki Shinjo <shinjo@jsk.imi.i.u-tokyo.ac.jp>
 
 #
@@ -34,7 +36,7 @@ RUN rosdep init && rosdep update
 # install ros packages
 ENV ROS_DISTRO melodic
 RUN apt-get update && apt-get install -y \
-    ros-melodic-desktop-full=1.3.2-0* \
+    ros-melodic-desktop-full=1.4.1-0* \
     && rm -rf /var/lib/apt/lists/*
 
 
