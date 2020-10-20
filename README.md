@@ -23,6 +23,20 @@ https://github.com/NVIDIA/nvidia-docker
 
 ## Tips
 
+### よく使う使いかた
+
+* image を build する
+
+```
+$ sudo docker build -t <image名>:<タグ名> .
+```
+
+* ファイルをマウントしてdockerを走らせる
+
+```
+$ sudo docker run --rm -v  -it <container Name> /bin/bash
+```
+
 ### 知っていると嬉しいオプション
 
 ### nvidia-docker を用いて、コンテナでGPUを使う
