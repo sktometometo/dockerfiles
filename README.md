@@ -31,10 +31,26 @@ https://github.com/NVIDIA/nvidia-docker
 $ sudo docker build -t <image名>:<タグ名> .
 ```
 
+* buildしたdockerイメージを走らせる
+
+```
+$ sudo docker run --rm -it <container Name> /bin/bash
+```
+
+** `--rm`: コンテナ終了時にコンテナを自動削除
+
+** `--it`: コンテナをインタラクティブモードで起動
+
+* buildしたdockerイメージをgpu付きで走らせる
+
+```
+$ sudo docker run --rm -it --gpus all <container Name> /bin/bash
+```
+
 * ファイルをマウントしてdockerを走らせる
 
 ```
-$ sudo docker run --rm -v  -it <container Name> /bin/bash
+$ sudo docker run --rm -v <ホストのディレクトリ>:<コンテナ内のディレクトリ>  -it <container Name> /bin/bash
 ```
 
 ### 知っていると嬉しいオプション

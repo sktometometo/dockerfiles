@@ -4,9 +4,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 Maintainer Koki Shinjo <shinjo@jsk.imi.i.u-tokyo.ac.jp>
 
-#
-# ROS melodic と cuda 9.2 を使えるようにした dockerimage
-#
+# Ubuntu 18.04 Image with
+#  - ROS melodic
+#  - cuda 9.2
+#  - cudnn7
+#  - chainer 6.4.0
 
 # -------------------------------------------------------
 # ROS Installation
@@ -76,7 +78,7 @@ RUN apt-get update -q && \
         libgnome2-bin \
         libnotify-bin \
         libqhull-dev \
-        libvtk5-dev \
+        libvtk6-dev \
         lm-sensors \
         lsb-release \
         man-db \
@@ -91,12 +93,12 @@ RUN apt-get update -q && \
         python-dev \
         python-pip \
         python-setuptools \
-        python-vtk \
+        python-vtk6 \
         rlwrap \
         software-properties-common \
         ssh \
         sudo \
-        tcl-vtk \
+        tcl-vtk6 \
         wget \
         xdg-user-dirs-gtk \
         xsel \

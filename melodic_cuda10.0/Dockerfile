@@ -1,12 +1,13 @@
-FROM nvidia/cuda:9.2-cudnn7-devel-ubuntu16.04
+FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 Maintainer Koki Shinjo <shinjo@jsk.imi.i.u-tokyo.ac.jp>
 
-# Ubuntu 16.04 Image with
-#  - ROS kinetic
-#  - cuda 9.2
+# Ubuntu 18.04 Image with
+#  - ROS melodic
+#  - cuda 10.0
 #  - cudnn7
-#  - chainer 6.4.0
 
 # -------------------------------------------------------
 # ROS Installation
@@ -19,7 +20,7 @@ RUN apt-get update && apt-get install -q -y \
 # setup keys
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 # setup sources.list
-RUN echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources.list.d/ros1-latest.list
+RUN echo "deb http://packages.ros.org/ros/ubuntu bionic main" > /etc/apt/sources.list.d/ros1-latest.list
 # install bootstrap tools
 RUN apt-get update && apt-get install --no-install-recommends -y \
     python-rosdep \
@@ -34,9 +35,9 @@ ENV LC_ALL C.UTF-8
 # bootstrap rosdep
 RUN rosdep init && rosdep update
 # install ros packages
-ENV ROS_DISTRO kinetic
+ENV ROS_DISTRO melodic
 RUN apt-get update && apt-get install -y \
-    ros-kinetic-desktop-full=1.3.2-0* \
+    ros-melodic-desktop-full=1.4.1-0* \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -108,40 +109,7 @@ RUN apt-get update -q && \
 
 
 # -------------------------------------------------------
-# Chainer Installation
-# -------------------------------------------------------
-
-RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends \
-        python3-dev \
-        python3-pip \
-        python3-wheel \
-        python3-setuptools \
-        git \
-        cmake \
-        libblas3 \
-        libblas-dev \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
-
-RUN pip install -U \
-        "setuptools<45" \
-        "pip==9.0.3"
-
-RUN pip install -U \
-        "chainer==6.4.0" \
-        "cupy-cuda92==6.4.0" \
-        "fcn==6.4.17" \
-        "ipython<6" \
-        "matplotlib<3" \
-        numpy \
-        percol \
-        flake8 \
-        grip \
-        hacking
-
-
-# -------------------------------------------------------
-#
+# bashrc
 # -------------------------------------------------------
 RUN echo '' >> ~/.bashrc
 RUN echo '# CUDA' >> ~/.bashrc
@@ -149,16 +117,7 @@ RUN echo 'export PATH=/usr/local/cuda/bin:${PATH}' >> ~/.bashrc
 RUN echo 'export LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}' >> ~/.bashrc
 RUN echo '' >> ~/.bashrc
 RUN echo '# ROS' >> ~/.bashrc
-RUN echo 'source /opt/ros/kinetic/setup.bash' >> ~/.bashrc
-RUN echo 'source $HOME/catkin_ws/devel/setup.bash' >> ~/.bashrc
+RUN echo 'source /opt/ros/melodic/setup.bash' >> ~/.bashrc
 
-RUN mkdir $HOME/catkin_ws/src -p && \
-    cd $HOME/catkin_ws && \
-    catkin init && \
-    cd $HOME/catkin_ws/src && \
-    git clone https://github.com/jsk-ros-pkg/jsk_recognition.git && \
-    apt-get update && apt-get upgrade && \
-    rosdep install --from-paths . --ignore-src -y -r && \
-    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 CMD /bin/bash -c "cd $HOME && bash --login -c 'exec bash'"
