@@ -55,6 +55,12 @@ $ sudo docker run --rm -v <ホストのディレクトリ>:<コンテナ内の�
 
 ### 知っていると嬉しいオプション
 
+### ホストのネットワークインターフェースをコンテナと共有する.
+
+```
+$ sudo docker run --rm -it --net host <container name>
+```
+
 ### nvidia-docker を用いて、コンテナでGPUを使う
 
 ホストOSに nvidia driver を入れた上で以下のように --gpus all などの指定をつけてコンテナを立ち上げると、コンテナ内でGPUが使える
