@@ -1,8 +1,13 @@
-FROM nvidia/cuda:11.1-cudnn8-devel-ubuntu18.04
+ARG CUDA_VERSION=11.1
+
+FROM nvidia/cuda:${CUDA_VERSION}-cudnn8-devel-ubuntu18.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 Maintainer Koki Shinjo <shinjo@jsk.imi.i.u-tokyo.ac.jp>
+
+ENV TRT_VERSION 7.2.3.4
+
 
 # Ubuntu 18.04 Image with
 #  - ROS melodic
@@ -11,8 +16,82 @@ Maintainer Koki Shinjo <shinjo@jsk.imi.i.u-tokyo.ac.jp>
 #  - TensorRT
 
 # -------------------------------------------------------
+# Basic Configuration
+# -------------------------------------------------------
+RUN echo ''
+RUN echo '-----------------------------'
+RUN echo 'Basic Configuration'
+RUN echo '-----------------------------'
+RUN echo ''
+
+RUN apt-get update \
+    && apt-get dist-upgrade -q -y \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update -q && \
+    apt-get install -q -y \
+        acpi \
+        apt \
+        apt-cacher-ng \
+        apt-utils \
+        aptitude \
+        bc \
+        ccache \
+        cmake \
+        cmake-curses-gui \
+        cron \
+        curl \
+        emacs \
+        git \
+        hddtemp \
+        htop \
+        ibus-mozc \
+        indicator-multiload \
+        ipython \
+        less \
+        libboost-all-dev \
+        libeigen3-dev \
+        libflann-dev \
+        libfreetype6-dev \
+        libgnome2-bin \
+        libnotify-bin \
+        libqhull-dev \
+        lm-sensors \
+        lsb-release \
+        man-db \
+        mesa-utils \
+        mlocate \
+        nkf \
+        notify-osd \
+        ntp \
+        patch \
+        pkg-config \
+        python \
+        python-dev \
+        python-pip \
+        python-setuptools \
+        rlwrap \
+        software-properties-common \
+        ssh \
+        sudo \
+        wget \
+        xdg-user-dirs-gtk \
+        xsel \
+        vim \
+        emacs \
+        tmux \
+        git \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+
+
+# -------------------------------------------------------
 # ROS Installation
 # -------------------------------------------------------
+RUN echo ''
+RUN echo '-----------------------------'
+RUN echo 'ROS Installation'
+RUN echo '-----------------------------'
+RUN echo ''
 # install packages
 RUN apt-get update && apt-get install -q -y \
     dirmngr \
@@ -45,6 +124,11 @@ RUN apt-get update && apt-get install -y \
 # -------------------------------------------------------
 # Tensor RT Installation
 # -------------------------------------------------------
+RUN echo ''
+RUN echo '-----------------------------'
+RUN echo 'Tensor RT Installation'
+RUN echo '-----------------------------'
+RUN echo ''
 RUN apt-get update && apt-get install -y software-properties-common
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -101,75 +185,13 @@ RUN cd /usr/local/bin && wget https://ngc.nvidia.com/downloads/ngccli_cat_linux.
 
 
 # -------------------------------------------------------
-# Basic Configuration
-# -------------------------------------------------------
-
-RUN apt-get update \
-    && apt-get dist-upgrade -q -y \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get update -q && \
-    apt-get install -q -y \
-        acpi \
-        apt \
-        apt-cacher-ng \
-        apt-utils \
-        aptitude \
-        bc \
-        ccache \
-        cmake \
-        cmake-curses-gui \
-        cron \
-        curl \
-        emacs \
-        git \
-        hddtemp \
-        htop \
-        ibus-mozc \
-        indicator-multiload \
-        ipython \
-        less \
-        libboost-all-dev \
-        libeigen3-dev \
-        libflann-dev \
-        libfreetype6-dev \
-        libgnome2-bin \
-        libnotify-bin \
-        libqhull-dev \
-        libvtk5-dev \
-        lm-sensors \
-        lsb-release \
-        man-db \
-        mesa-utils \
-        mlocate \
-        nkf \
-        notify-osd \
-        ntp \
-        patch \
-        pkg-config \
-        python \
-        python-dev \
-        python-pip \
-        python-setuptools \
-        python-vtk \
-        rlwrap \
-        software-properties-common \
-        ssh \
-        sudo \
-        tcl-vtk \
-        wget \
-        xdg-user-dirs-gtk \
-        xsel \
-        vim \
-        emacs \
-        tmux \
-        git \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
-
-
-# -------------------------------------------------------
 # Add a default user and bashrc
 # -------------------------------------------------------
+RUN echo ''
+RUN echo '-----------------------------'
+RUN echo 'User Configuration'
+RUN echo '-----------------------------'
+RUN echo ''
 RUN groupadd -g 1000 developer && \
     useradd  -g      developer -G sudo -m -s /bin/bash ubuntu && \
     echo 'ubuntu:ubuntu' | chpasswd
