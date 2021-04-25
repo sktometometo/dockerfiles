@@ -2,6 +2,9 @@ FROM osrf/ros:noetic-desktop-full
 MAINTAINER sktometometo <shinjo@jsk.imi.i.u-tokyo.ac.jp>
 
 RUN apt-get update \
+    && apt-get upgrade -y
+
+RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        apt-utils \
        sudo \
@@ -19,3 +22,4 @@ RUN echo 'Defaults visiblepw'            >> /etc/sudoers
 RUN echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER ubuntu
+WORKDIR /home/ubuntu
