@@ -152,12 +152,3 @@ USER ubuntu
 #
 #
 RUN rosdep update
-RUN mkdir /home/ubuntu/catkin_ws/src -p
-RUN cd /home/ubuntu/catkin_ws
-RUN catkin init
-RUN cd /home/ubuntu/catkin_ws/src \
-    && git clone https://github.com/tongtybj/jsk_recognition.git \
-    && cd jsk_recognition \
-    && git checkout trtr_tracker \
-    && cd .. \
-    && sudo rosdep install --from-paths . --ignore-src -y -r
