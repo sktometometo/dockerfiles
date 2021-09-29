@@ -83,7 +83,7 @@ sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
 $ sudo docker build -t <image名>:<タグ名> <dockerfileのある場所>
 ```
 
-#### buildしたdockerイメージを走らせる
+#### buildしたdockerイメージからコンテナを作成して実行
 
 ```
 $ sudo docker run --rm -it <container Name> /bin/bash
@@ -92,13 +92,13 @@ $ sudo docker run --rm -it <container Name> /bin/bash
 - `--rm`: コンテナ終了時にコンテナを自動削除
 - `--it`: コンテナをインタラクティブモードで起動
 
-#### buildしたdockerイメージをgpu付きで走らせる
+#### buildしたdockerイメージをgpu付きでコンテナを作成して実行
 
 ```
 $ sudo docker run --rm -it --gpus all <container Name> /bin/bash
 ```
 
-#### ファイルをマウントしてdockerを走らせる
+#### ファイルをマウントしてコンテナを作成して実行
 
 ```
 $ sudo docker run --rm -v <ホストのディレクトリ>:<コンテナ内のディレクトリ>  -it <container Name> /bin/bash
