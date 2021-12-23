@@ -143,7 +143,7 @@ RUN pip install -U \
 
 
 # -------------------------------------------------------
-#
+# Bashrc
 # -------------------------------------------------------
 RUN echo '' >> ~/.bashrc
 RUN echo '# CUDA' >> ~/.bashrc
@@ -152,15 +152,5 @@ RUN echo 'export LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}' >> ~/
 RUN echo '' >> ~/.bashrc
 RUN echo '# ROS' >> ~/.bashrc
 RUN echo 'source /opt/ros/melodic/setup.bash' >> ~/.bashrc
-RUN echo 'source $HOME/catkin_ws/devel/setup.bash' >> ~/.bashrc
-
-RUN mkdir $HOME/catkin_ws/src -p && \
-    cd $HOME/catkin_ws && \
-    catkin init && \
-    cd $HOME/catkin_ws/src && \
-    git clone https://github.com/jsk-ros-pkg/jsk_recognition.git && \
-    apt-get update && apt-get upgrade && \
-    rosdep install --from-paths . --ignore-src -y -r && \
-    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 CMD /bin/bash -c "cd $HOME && bash --login -c 'exec bash'"
