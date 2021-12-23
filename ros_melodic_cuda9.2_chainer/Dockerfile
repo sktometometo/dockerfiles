@@ -1,13 +1,20 @@
-FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
 
-ENV DEBIAN_FRONTEND=noninteractive
-
-Maintainer Koki Shinjo <shinjo@jsk.imi.i.u-tokyo.ac.jp>
+LABEL maintainer="sktometometo <sktometometo@gmail.com>"
 
 # Ubuntu 18.04 Image with
 #  - ROS melodic
-#  - cuda 10.0
+#  - cuda 9.2
 #  - cudnn7
+#  - chainer 6.4.0
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+
+RUN apt-get update \
+    && apt-get dist-upgrade -q -y \
+    && rm -rf /var/lib/apt/lists/*
+
 
 # -------------------------------------------------------
 # ROS Installation
@@ -44,11 +51,6 @@ RUN apt-get update && apt-get install -y \
 # -------------------------------------------------------
 # Basic Configuration
 # -------------------------------------------------------
-
-RUN apt-get update \
-    && apt-get dist-upgrade -q -y \
-    && rm -rf /var/lib/apt/lists/*
-
 RUN apt-get update -q && \
     apt-get install -q -y \
         acpi \
@@ -77,7 +79,7 @@ RUN apt-get update -q && \
         libgnome2-bin \
         libnotify-bin \
         libqhull-dev \
-        libvtk5-dev \
+        libvtk6-dev \
         lm-sensors \
         lsb-release \
         man-db \
@@ -92,12 +94,12 @@ RUN apt-get update -q && \
         python-dev \
         python-pip \
         python-setuptools \
-        python-vtk \
+        python-vtk6 \
         rlwrap \
         software-properties-common \
         ssh \
         sudo \
-        tcl-vtk \
+        tcl-vtk6 \
         wget \
         xdg-user-dirs-gtk \
         xsel \
@@ -109,7 +111,50 @@ RUN apt-get update -q && \
 
 
 # -------------------------------------------------------
-# bashrc
+# Chainer Installation
+# -------------------------------------------------------
+RUN apt-get update -y \
+    && apt-get install -y --no-install-recommends \
+        python3-dev \
+        python3-pip \
+        python3-wheel \
+        python3-setuptools \
+        git \
+        cmake \
+        libblas3 \
+        libblas-dev \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+RUN pip install -U \
+        "setuptools<45" \
+        "pip==9.0.3"
+RUN pip install -U \
+        "chainer==6.4.0" \
+        "cupy-cuda92==6.4.0" \
+        "fcn==6.4.17" \
+        "ipython<6" \
+        "matplotlib<3" \
+        numpy \
+        percol \
+        flake8 \
+        grip \
+        hacking
+
+
+# -------------------------------------------------------
+# Default User
+# -------------------------------------------------------
+RUN groupadd -g 1000 developer && \
+    useradd  -g      developer -G sudo -m -s /bin/bash ubuntu && \
+    echo 'ubuntu:ubuntu' | chpasswd
+
+RUN echo 'Defaults visiblepw'            >> /etc/sudoers
+RUN echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+USER ubuntu
+
+
+# -------------------------------------------------------
+# Bashrc
 # -------------------------------------------------------
 RUN echo '' >> ~/.bashrc
 RUN echo '# CUDA' >> ~/.bashrc
