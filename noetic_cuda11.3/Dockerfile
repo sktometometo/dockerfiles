@@ -75,7 +75,6 @@ RUN apt-get update -q && \
         libeigen3-dev \
         libflann-dev \
         libfreetype6-dev \
-        libgnome2-bin \
         libnotify-bin \
         libqhull-dev \
         lm-sensors \
