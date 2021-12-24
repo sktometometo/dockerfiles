@@ -16,8 +16,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build Images
-        run: docker build -t sktometometo/ubuntu-ros:ros_kinetic_cuda9.2_chainer ./ros_kinetic_cuda9.2_chainer
+      - name: Build Image and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./ros_kinetic_cuda9.2_chainer
+          push: true
+          tags: sktometometo/ubuntu-ros:ros_kinetic_cuda9.2_chainer
   build_ros_melodic_cuda92_chainer:
     runs-on: ubuntu-latest
     steps:
@@ -25,8 +29,17 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Build Images
-        run: docker build -t sktometometo/ubuntu-ros:ros_melodic_cuda9.2_chainer ./ros_melodic_cuda9.2_chainer
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build Image and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./ros_melodic_cuda9.2_chainer
+          push: true
+          tags: sktometometo/ubuntu-ros:ros_melodic_cuda9.2_chainer
   build_ros_melodic_cuda100:
     runs-on: ubuntu-latest
     steps:
@@ -34,8 +47,17 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Build Images
-        run: docker build -t sktometometo/ubuntu-ros:ros_melodic_cuda10.0 ./ros_melodic_cuda10.0
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build Image and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./ros_melodic_cuda10.0
+          push: true
+          tags: sktometometo/ubuntu-ros:ros_melodic_cuda10.0
   build_ros_melodic_realsense:
     runs-on: ubuntu-latest
     steps:
@@ -43,8 +65,17 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Build Images
-        run: docker build -t sktometometo/ubuntu-ros:ros_melodic_realsense ./ros_melodic_realsense
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build Image and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./ros_melodic_realsense
+          push: true
+          tags: sktometometo/ubuntu-ros:ros_melodic_realsense
   build_ros_noetic_cuda113_torch110:
     runs-on: ubuntu-latest
     steps:
@@ -52,5 +83,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Build Images
-        run: docker build -t sktometometo/ubuntu-ros:ros_noetic_cuda11.3_torch1.10 ./ros_noetic_cuda11.3_torch1.10
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build Image and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./ros_noetic_cuda11.3_torch1.10
+          push: true
+          tags: sktometometo/ubuntu-ros:ros_noetic_cuda11.3_torch1.10
