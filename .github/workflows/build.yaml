@@ -4,7 +4,7 @@ on:
     branches:
       - 'master'
 jobs:
-  build:
+  build_ros_kinetic_cuda9.2_chainer:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -12,4 +12,40 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Build Images
-        run: ./build.sh
+        run: docker build -t sktometometo/ubuntu-ros:ros_kinetic_cuda9.2_chainer ./ros_kinetic_cuda9.2_chainer
+  build_ros_melodic_cuda9.2_chainer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build Images
+        run: docker build -t sktometometo/ubuntu-ros:ros_melodic_cuda9.2_chainer ./ros_melodic_cuda9.2_chainer
+  build_ros_melodic_cuda10.0:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build Images
+        run: docker build -t sktometometo/ubuntu-ros:ros_melodic_cuda10.0_chainer ./ros_melodic_cuda10.0_chainer
+  build_ros_melodic_realsense:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build Images
+        run: docker build -t sktometometo/ubuntu-ros:ros_melodic_realsense ./ros_melodic_realsense
+  build_ros_noetic_cuda11.3_torch1.10:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build Images
+        run: docker build -t sktometometo/ubuntu-ros:ros_noetic_cuda11.3_torch1.10 ./ros_noetic_cuda11.3_torch1.10
