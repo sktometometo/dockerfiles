@@ -1,5 +1,8 @@
 # Dockerfiles
 
+[![Docker Image Build Workflow](https://github.com/sktometometo/dockerfiles/actions/workflows/build.yaml/badge.svg)](https://github.com/sktometometo/dockerfiles/actions/workflows/build.yaml)
+
+
 自分用の色々な用途の docker images
 
 他に docker 使用時の tips をまとめておく場所
