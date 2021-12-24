@@ -15,6 +15,21 @@ RUN apt-get update \
 
 
 # -------------------------------------------------------
+# Basic Configuration
+# -------------------------------------------------------
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       apt-utils \
+       software-properties-common \
+       sudo \
+       vim \
+       tmux \
+       git \
+    && apt-get -y clean \
+    && rm -rf /var/lib/apt/lists/*
+
+
+# -------------------------------------------------------
 # LibRealsense Installation
 # -------------------------------------------------------
 # install packages
@@ -29,20 +44,6 @@ RUN sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo 
 # Install librealsense2
 RUN apt-get update && apt-get install -y \
     librealsense2-* \
-    && rm -rf /var/lib/apt/lists/*
-
-
-# -------------------------------------------------------
-# Basic Configuration
-# -------------------------------------------------------
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-       apt-utils \
-       sudo \
-       vim \
-       tmux \
-       git \
-    && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/*
 
 

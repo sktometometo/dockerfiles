@@ -77,7 +77,6 @@ RUN apt-get update -q && \
         libgnome2-bin \
         libnotify-bin \
         libqhull-dev \
-        libvtk5-dev \
         lm-sensors \
         lsb-release \
         man-db \
@@ -92,12 +91,10 @@ RUN apt-get update -q && \
         python-dev \
         python-pip \
         python-setuptools \
-        python-vtk \
         rlwrap \
         software-properties-common \
         ssh \
         sudo \
-        tcl-vtk \
         wget \
         xdg-user-dirs-gtk \
         xsel \
