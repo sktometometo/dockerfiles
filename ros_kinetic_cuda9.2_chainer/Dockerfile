@@ -40,7 +40,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 # bootstrap rosdep
-RUN rosdep init && rosdep update
+RUN rosdep init
 # install ros packages
 RUN apt-get update && apt-get install -y \
     ros-kinetic-desktop-full=1.3.2-0* \
@@ -150,6 +150,7 @@ RUN echo 'Defaults visiblepw'            >> /etc/sudoers
 RUN echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER ubuntu
+RUN rosdep update
 
 
 # -------------------------------------------------------
