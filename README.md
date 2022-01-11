@@ -2,7 +2,7 @@
 
 [![Docker Image Build Workflow](https://github.com/sktometometo/dockerfiles/actions/workflows/build.yaml/badge.svg)](https://github.com/sktometometo/dockerfiles/actions/workflows/build.yaml)
 
-Some images are released at https://hub.docker.com/repository/docker/sktometometo/ubuntu-ros
+Some images are released at https://hub.docker.com/r/sktometometo/ubuntu-ros
 
 自分用の色々な用途の docker images
 
@@ -66,8 +66,8 @@ distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
    && curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add - \
    && curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
 sudo apt update
-sudo apt install nvidia-docker2                    
-docker service を restart                  
+sudo apt install nvidia-docker2
+docker service を restart
 sudo systemctl restart docker
 ```
 
@@ -90,7 +90,7 @@ $ sudo docker build -t <image名>:<タグ名> <dockerfileのある場所>
 #### buildしたdockerイメージからコンテナを作成して実行
 
 ```
-$ sudo docker run --rm -it <container Name> /bin/bash
+$ sudo docker run --rm -it <image name>:<tag name> /bin/bash
 ```
 
 - `--rm`: コンテナ終了時にコンテナを自動削除
@@ -99,21 +99,31 @@ $ sudo docker run --rm -it <container Name> /bin/bash
 #### buildしたdockerイメージをgpu付きでコンテナを作成して実行
 
 ```
-$ sudo docker run --rm -it --gpus all <container Name> /bin/bash
+$ sudo docker run --rm -it --gpus all <image name>:<tag name> /bin/bash
 ```
 
 #### ファイルをマウントしてコンテナを作成して実行
 
 ```
-$ sudo docker run --rm -v <ホストのディレクトリ>:<コンテナ内のディレクトリ>  -it <container Name> /bin/bash
+$ sudo docker run --rm -it -v <ホストのディレクトリ>:<コンテナ内のディレクトリ> <image name>:<tag name> /bin/bash
 ```
 
-### 知っていると嬉しいオプション
+#### Hostマシンに接続したRealsenseをDocker Containerから使う
+
+```
+$ sudo docker run --rm -it --privileged -v /dev:/dev <image name>:<tag name> rs-enumerate-devices
+```
+
+#### ホストPCでコンテナ内部のGUIアプリケーションを表示する
+
+```
+$ sudo docker run --rm -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY <image name>:<tag name> /bin/bash
+```
 
 ### ホストのネットワークインターフェースをコンテナと共有する.
 
 ```
-$ sudo docker run --rm -it --net host <container name>
+$ sudo docker run --rm -it --net host <image name>:<tag name> /bin/bash
 ```
 
 ### nvidia-docker を用いて、コンテナでGPUを使う
@@ -121,7 +131,7 @@ $ sudo docker run --rm -it --net host <container name>
 ホストOSに nvidia driver を入れた上で以下のように --gpus all などの指定をつけてコンテナを立ち上げると、コンテナ内でGPUが使える
 
 ```
-$ sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
+$ sudo docker run --rm -it --gpus all nvidia/cuda:11.0-base nvidia-smi
 ```
 
 ### ユーザーモードqemuを使って ARMエミュレーションを使って docker コンテナを立ち上げる.
