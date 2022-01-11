@@ -87,10 +87,16 @@ sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
 $ sudo docker build -t <image名>:<タグ名> <dockerfileのある場所>
 ```
 
+実行例
+
+```
+$ sudo docker build -t sktometometo:ros_melodic_cuda10.0 ./ros_melodic_cuda10.0
+```
+
 #### buildしたdockerイメージからコンテナを作成して実行
 
 ```
-$ sudo docker run --rm -it <image name>:<tag name> /bin/bash
+$ sudo docker run --rm -it <image name>:<tag name>
 ```
 
 - `--rm`: コンテナ終了時にコンテナを自動削除
@@ -98,14 +104,16 @@ $ sudo docker run --rm -it <image name>:<tag name> /bin/bash
 
 #### buildしたdockerイメージをgpu付きでコンテナを作成して実行
 
+ホストOSに nvidia driver を入れた上で以下のように --gpus all などの指定をつけてコンテナを立ち上げると、コンテナ内でGPUが使える
+
 ```
-$ sudo docker run --rm -it --gpus all <image name>:<tag name> /bin/bash
+$ sudo docker run --rm -it --gpus all <image name>:<tag name>
 ```
 
 #### ファイルをマウントしてコンテナを作成して実行
 
 ```
-$ sudo docker run --rm -it -v <ホストのディレクトリ>:<コンテナ内のディレクトリ> <image name>:<tag name> /bin/bash
+$ sudo docker run --rm -it -v <ホストのディレクトリ>:<コンテナ内のディレクトリ> <image name>:<tag name>
 ```
 
 #### Hostマシンに接続したRealsenseをDocker Containerから使う
@@ -117,21 +125,13 @@ $ sudo docker run --rm -it --privileged -v /dev:/dev <image name>:<tag name> rs-
 #### ホストPCでコンテナ内部のGUIアプリケーションを表示する
 
 ```
-$ sudo docker run --rm -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY <image name>:<tag name> /bin/bash
+$ sudo docker run --rm -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY <image name>:<tag name>
 ```
 
 ### ホストのネットワークインターフェースをコンテナと共有する.
 
 ```
-$ sudo docker run --rm -it --net host <image name>:<tag name> /bin/bash
-```
-
-### nvidia-docker を用いて、コンテナでGPUを使う
-
-ホストOSに nvidia driver を入れた上で以下のように --gpus all などの指定をつけてコンテナを立ち上げると、コンテナ内でGPUが使える
-
-```
-$ sudo docker run --rm -it --gpus all nvidia/cuda:11.0-base nvidia-smi
+$ sudo docker run --rm -it --net host <image name>:<tag name>
 ```
 
 ### ユーザーモードqemuを使って ARMエミュレーションを使って docker コンテナを立ち上げる.
