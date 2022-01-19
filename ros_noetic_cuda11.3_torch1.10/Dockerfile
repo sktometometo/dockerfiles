@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04
+FROM nvidia/cudagl:11.3.1-devel-ubuntu20.04
 
 LABEL maintainer="sktometometo <sktometometo@gmail.com>"
 
