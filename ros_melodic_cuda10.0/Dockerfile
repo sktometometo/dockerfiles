@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
+FROM nvidia/cudagl:10.0-devel-ubuntu18.04
 
 LABEL maintainer="sktometometo <sktometometo@gmail.com>"
 
