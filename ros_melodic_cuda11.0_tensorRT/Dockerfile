@@ -1,12 +1,13 @@
-FROM nvcr.io/nvidia/tensorrt:20.11-py3
+FROM nvcr.io/nvidia/tensorrt:21.06-py3
 
 LABEL maintainer="sktometometo <sktometometo@gmail.com>"
 
-# Ubuntu 18.04 Image with
-#  - ROS melodic
-#  - cuda 11.1
-#  - cudnn8
-#  - TensorRT
+# Ubuntu 20.04 Image with
+#  - ROS noetic
+#  - CUDA 11.3.1
+#  - cudnn 8.2.1
+#  - TensorRT 7.2.3.4
+# See https://docs.nvidia.com/deeplearning/tensorrt/container-release-notes/index.html for base container information
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -30,11 +31,11 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6
 RUN echo "deb http://packages.ros.org/ros/ubuntu bionic main" > /etc/apt/sources.list.d/ros1-latest.list
 # install bootstrap tools
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    python-rosdep \
-    python-rosinstall \
-    python-vcstools \
-    python-catkin-tools \
-    python-wstools \
+    python3-rosdep \
+    python3-rosinstall \
+    python3-vcstools \
+    python3-catkin-tools \
+    python3-wstool \
     && rm -rf /var/lib/apt/lists/*
 # setup environment
 ENV LANG C.UTF-8
@@ -42,9 +43,8 @@ ENV LC_ALL C.UTF-8
 # bootstrap rosdep
 RUN rosdep init
 # install ros packages
-ENV ROS_DISTRO melodic
 RUN apt-get update && apt-get install -y \
-    ros-melodic-desktop-full \
+    ros-noetic-desktop-full \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -70,13 +70,12 @@ RUN apt-get update -q && \
         htop \
         ibus-mozc \
         indicator-multiload \
-        ipython \
+        ipython3 \
         less \
         libboost-all-dev \
         libeigen3-dev \
         libflann-dev \
         libfreetype6-dev \
-        libgnome2-bin \
         libnotify-bin \
         libqhull-dev \
         lm-sensors \
@@ -89,10 +88,10 @@ RUN apt-get update -q && \
         ntp \
         patch \
         pkg-config \
-        python \
-        python-dev \
-        python-pip \
-        python-setuptools \
+        python3 \
+        python3-dev \
+        python3-pip \
+        python3-setuptools \
         rlwrap \
         software-properties-common \
         ssh \
@@ -131,7 +130,7 @@ RUN echo 'export LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}' >> ~/
 RUN echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${TRT_OSSPATH}/build/out:${TRT_LIBPATH}"' >> ~/.bashrc
 RUN echo '' >> ~/.bashrc
 RUN echo '# ROS' >> ~/.bashrc
-RUN echo 'source /opt/ros/melodic/setup.bash' >> ~/.bashrc
+RUN echo 'source /opt/ros/noetic/setup.bash' >> ~/.bashrc
 
 
 CMD /bin/bash -c "cd $HOME && bash --login -c 'exec bash'"
