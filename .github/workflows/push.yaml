@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - 'master'
+  schedule:
+    - cron: '0 0 * * 0'
 jobs:
   push_docker_image:
     runs-on: ubuntu-latest
