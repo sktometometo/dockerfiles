@@ -1,13 +1,10 @@
-name: Docker Image Build Workflow
+name: Docker Image Push Workflow
 on:
   push:
     branches:
       - 'master'
-  pull_request:
-    branches:
-      - 'master'
 jobs:
-  build_docker_image:
+  push_docker_image:
     runs-on: ubuntu-latest
     continue-on-error: true
     strategy:
@@ -20,13 +17,18 @@ jobs:
           - ros_melodic_realsense
           - ros_noetic_cuda11.3_tensorRT7.2
           - ros_noetic_cuda11.3_torch1.10
-    name: build_${{ matrix.tag }}
+    name: push_${{ matrix.tag }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: Build Image
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push Image
         uses: docker/build-push-action@v2
         with:
           context: ./${{ matrix.tag }}
-          push: false
+          push: true
           tags: sktometometo/ubuntu-ros:${{ matrix.tag }}
