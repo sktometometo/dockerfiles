@@ -25,6 +25,7 @@ RUN apt-get update \
        vim \
        tmux \
        git \
+       bsdmainutils \
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -63,7 +64,6 @@ USER ubuntu
 # -------------------------------------------------------
 # Bashrc
 # -------------------------------------------------------
-RUN echo '' >> ~/.bashrc
 RUN echo '# ROS' >> ~/.bashrc
 RUN echo 'source /opt/ros/melodic/setup.bash' >> ~/.bashrc
 
