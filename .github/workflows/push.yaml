@@ -12,11 +12,15 @@ jobs:
     strategy:
       matrix:
         tag:
+          - ros_kinetic
+          - ros_kinetic_realsense
           - ros_kinetic_cuda9.2_chainer
           - ros_melodic
+          - ros_melodic_realsense
           - ros_melodic_cuda10.0
           - ros_melodic_cuda9.2_chainer
-          - ros_melodic_realsense
+          - ros_noetic
+          - ros_noetic_realsense
           - ros_noetic_cuda11.3_tensorRT7.2
           - ros_noetic_cuda11.3_torch1.10
     name: push_${{ matrix.tag }}
