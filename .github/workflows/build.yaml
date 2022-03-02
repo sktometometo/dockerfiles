@@ -14,7 +14,6 @@ jobs:
       matrix:
         tag:
           - ros_kinetic
-          - ros_kinetic_realsense
           - ros_kinetic_cuda9.2_chainer
           - ros_melodic
           - ros_melodic_realsense
