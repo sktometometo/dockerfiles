@@ -1,9 +1,9 @@
-FROM osrf/ros:melodic-desktop-full
+FROM osrf/ros:kinetic-desktop-full
 
 LABEL maintainer="sktometometo <sktometometo@gmail.com>"
 
-# Ubuntu 18.04 Image with
-#  - ROS melodic
+# Ubuntu 16.04 Image with
+#  - ROS kinetic
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -19,7 +19,6 @@ RUN apt-get update \
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        apt-utils \
-       software-properties-common \
        sudo \
        vim \
        tmux \
@@ -46,7 +45,7 @@ USER ubuntu
 # bashrc configuration
 # -------------------------------------------------------
 RUN echo '# ROS' >> ~/.bashrc
-RUN echo 'source /opt/ros/melodic/setup.bash' >> ~/.bashrc
+RUN echo 'source /opt/ros/kinetic/setup.bash' >> ~/.bashrc
 
 
 CMD /bin/bash -c "cd $HOME && bash --login -c 'exec bash'"

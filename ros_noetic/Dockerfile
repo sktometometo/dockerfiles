@@ -1,9 +1,9 @@
-FROM osrf/ros:melodic-desktop-full
+FROM osrf/ros:noetic-desktop-full
 
 LABEL maintainer="sktometometo <sktometometo@gmail.com>"
 
-# Ubuntu 18.04 Image with
-#  - ROS melodic
+# Ubuntu 20.04 Image with
+#  - ROS noetic
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -46,7 +46,7 @@ USER ubuntu
 # bashrc configuration
 # -------------------------------------------------------
 RUN echo '# ROS' >> ~/.bashrc
-RUN echo 'source /opt/ros/melodic/setup.bash' >> ~/.bashrc
+RUN echo 'source /opt/ros/noetic/setup.bash' >> ~/.bashrc
 
 
 CMD /bin/bash -c "cd $HOME && bash --login -c 'exec bash'"
