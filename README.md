@@ -8,6 +8,13 @@ Some images are released at https://hub.docker.com/r/sktometometo/ubuntu-ros
 
 他に docker 使用時の tips をまとめておく場所
 
+#### 全部入り起動方法
+
+`<tab name>`は変更すること
+
+```bash
+sudo docker run --net=host --privileged -v /dev:/dev -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY --gpus all -it sktometometo/ubuntu-ros:<tag name>
+```
 
 ## Installation
 
@@ -81,11 +88,6 @@ sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
 
 ### よく使う使いかた
 
-#### 全部入り起動方法
-
-```
-$ sudo docker run --net=host --privileged -v /dev:/dev -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY --gpus all -it <image name>:<tag name>
-```
 
 #### image を build する
 
