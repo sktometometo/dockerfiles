@@ -12,7 +12,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 
 RUN apt-get update \
-    && apt-get dist-upgrade -q -y \
+    && apt-get dist-upgrade -q -y --allow-unauthenticated \
     && rm -rf /var/lib/apt/lists/*
 
 
