@@ -10,6 +10,18 @@ LABEL maintainer="sktometometo <sktometometo@gmail.com>"
 ENV DEBIAN_FRONTEND=noninteractive
 
 
+# install packages
+RUN apt-get update && apt-get install -q -y \
+    wget \
+    dirmngr \
+    gnupg2  \
+    gnupg-curl \
+    && rm -rf /var/lib/apt/lists/*
+# Update GPG Key for CUDA
+#  See https://zenn.dev/takakurasato/scraps/d3e0ee6132a5c5
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub \
+    && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+
 RUN apt-get update \
     && apt-get dist-upgrade -q -y \
     && rm -rf /var/lib/apt/lists/*
@@ -18,11 +30,6 @@ RUN apt-get update \
 # -------------------------------------------------------
 # ROS Installation
 # -------------------------------------------------------
-# install packages
-RUN apt-get update && apt-get install -q -y \
-    dirmngr \
-    gnupg2  \
-    && rm -rf /var/lib/apt/lists/*
 # setup keys
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 # setup sources.list
