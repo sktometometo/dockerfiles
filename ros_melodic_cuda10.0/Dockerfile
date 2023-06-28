@@ -10,19 +10,21 @@ LABEL maintainer="sktometometo <sktometometo@gmail.com>"
 ENV DEBIAN_FRONTEND=noninteractive
 
 
-# install packages
-RUN apt-get update && apt-get install -q -y \
-    wget \
-    dirmngr \
-    gnupg2  \
-    gnupg-curl \
-    && rm -rf /var/lib/apt/lists/*
 # Update GPG Key for CUDA
 #  See https://zenn.dev/takakurasato/scraps/d3e0ee6132a5c5
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub \
     && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
 
+# install packages
+RUN apt-get update && apt-get install -q -y \
+    wget \
+    dirmngr \
+    gnupg2  \
+    && rm -rf /var/lib/apt/lists/*
+
+# Upgrade packages
 RUN apt-get update \
+    && apt-get upgrade -q -y \
     && apt-get dist-upgrade -q -y \
     && rm -rf /var/lib/apt/lists/*
 
