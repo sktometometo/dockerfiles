@@ -25,7 +25,7 @@ jobs:
           - ros_melodic_cuda9.2_chainer
           - ros_noetic
           - ros_noetic_realsense
-          - ros_noetic_cuda11.3_tensorRT7.2
+          - ros_noetic_cuda11.3_tensorrt7.2
           - ros_noetic_cuda11.3_torch1.10
     name: build_${{ matrix.tag }}
     steps:
