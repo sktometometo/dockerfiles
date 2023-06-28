@@ -19,13 +19,13 @@ RUN apt-get update \
 # -------------------------------------------------------
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       apt-utils \
-       software-properties-common \
-       sudo \
-       vim \
-       tmux \
-       git \
-       bsdmainutils \
+    apt-utils \
+    software-properties-common \
+    sudo \
+    vim \
+    tmux \
+    git \
+    bsdmainutils \
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -44,7 +44,10 @@ RUN sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65A
 RUN sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
 # Install librealsense2
 RUN apt-get update && apt-get install -y \
-    librealsense2-* \
+    librealsense2-dkms \
+    librealsense2-utils \
+    librealsense2-dev \
+    librealsense2-dbg \
     && rm -rf /var/lib/apt/lists/*
 
 
