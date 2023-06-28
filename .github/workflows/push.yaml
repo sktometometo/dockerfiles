@@ -21,7 +21,7 @@ jobs:
           - ros_melodic_cuda9.2_chainer
           - ros_noetic
           - ros_noetic_realsense
-          - ros_noetic_cuda11.3_tensorRT7.2
+          - ros_noetic_cuda11.3_tensorrt7.2
           - ros_noetic_cuda11.3_torch1.10
     name: push_${{ matrix.tag }}
     steps:
@@ -37,4 +37,4 @@ jobs:
         with:
           context: ./${{ matrix.image }}
           push: true
-          tags: sktometometo/${{ matrix.image }}:${{ github.ref }}
+          tags: sktometometo/${{ matrix.image }}:${{ github.ref_name }}
