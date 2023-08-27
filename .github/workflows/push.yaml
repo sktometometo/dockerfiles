@@ -23,7 +23,7 @@ jobs:
           - ros_noetic
           - ros_noetic_realsense
           - ros_noetic_cuda11.3_tensorrt7.2
-          - ros_noetic_cuda11.3_torch1.10
+          - ros_noetic_cuda11.3_torch1.11
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
