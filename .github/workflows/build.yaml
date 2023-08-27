@@ -12,6 +12,7 @@ on:
 
 jobs:
   build_docker_image:
+    name: Build ${{ matrix.image }}
     runs-on: ubuntu-latest
     continue-on-error: true
     strategy:
@@ -27,7 +28,6 @@ jobs:
           - ros_noetic_realsense
           - ros_noetic_cuda11.3_tensorrt7.2
           - ros_noetic_cuda11.3_torch1.10
-    name: build_${{ matrix.tag }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
