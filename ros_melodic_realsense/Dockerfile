@@ -37,11 +37,14 @@ RUN apt-get update \
 RUN apt-get update && apt-get install -q -y \
     dirmngr \
     gnupg2  \
+    curl \
+    apt-transport-https \
     && rm -rf /var/lib/apt/lists/*
 # setup keys
-RUN sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -sSf https://librealsense.intel.com/Debian/librealsense.pgp | tee /etc/apt/keyrings/librealsense.pgp > /dev/null
 # setup sources.list
-RUN sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
+RUN echo "deb [signed-by=/etc/apt/keyrings/librealsense.pgp] https://librealsense.intel.com/Debian/apt-repo `lsb_release -cs` main" | tee /etc/apt/sources.list.d/librealsense.list
 # Install librealsense2
 RUN apt-get update && apt-get install -y \
     librealsense2-dkms \
