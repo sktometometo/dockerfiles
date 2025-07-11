@@ -18,16 +18,16 @@ jobs:
     strategy:
       matrix:
         image:
-          - ros_kinetic
-          - ros_kinetic_cuda9.2_chainer
-          - ros_melodic
-          - ros_melodic_realsense
-          - ros_melodic_cuda10.0
-          - ros_melodic_cuda9.2_chainer
           - ros_noetic
-          - ros_noetic_realsense
-          - ros_noetic_cuda11.3_tensorrt7.2
-          - ros_noetic_cuda11.3_torch1.11
+          # - ros_kinetic
+          # - ros_kinetic_cuda9.2_chainer
+          # - ros_melodic
+          # - ros_melodic_realsense
+          # - ros_melodic_cuda10.0
+          # - ros_melodic_cuda9.2_chainer
+          # - ros_noetic_realsense
+          # - ros_noetic_cuda11.3_tensorrt7.2
+          # - ros_noetic_cuda11.3_torch1.11
     steps:
       # Make free space
       # https://stackoverflow.com/questions/75536771/github-runner-out-of-disk-space-after-building-docker-image
