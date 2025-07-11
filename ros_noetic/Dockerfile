@@ -24,10 +24,13 @@ RUN apt-get update \
        vim \
        tmux \
        git \
+       wget \
+       curl \
        bsdmainutils \
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/*
-
+RUN sudo apt-key del C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+RUN curl -sS https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | sudo apt-key add -
 
 # -------------------------------------------------------
 # Default User
